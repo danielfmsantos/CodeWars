@@ -1,6 +1,6 @@
 package kyu7;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import java.util.stream.IntStream;
 
 /**
  * https://www.codewars.com/kata/are-the-numbers-in-order/
@@ -15,7 +15,22 @@ public class IsAscOrder {
 		System.out.println(isAscOrder(new int[] { 2, 1 }));
 	}
 	
+	/**
+	 * Lambda
+	 * @param arr
+	 * @return
+	 */
 	public static boolean isAscOrder(int[] arr) {
+		return arr.length == 1 ||
+				IntStream.range(0, arr.length - 1).allMatch(x -> arr[x] < arr[x + 1]);
+	}
+	
+	/**
+	 * Basic solution
+	 * @param arr
+	 * @return
+	 */
+	public static boolean isAscOrder2(int[] arr) {
 		
 		if(arr.length == 1) {
 			return true;
