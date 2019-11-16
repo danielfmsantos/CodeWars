@@ -15,7 +15,7 @@ public class StockList {
 		
 		String art[] = new String[]{"ABAR 200", "CDXE 500", "BKWR -250", "BTSQ 890", "DRTY 600"};
 		String cd[] = new String[]{"A", "B", "Z"};
-		System.out.println(stockSummary(art, cd));
+		System.out.println(stockSummary2(art, cd));
 	}
 
 	// 1st parameter is the stocklist (L in example),
@@ -42,4 +42,31 @@ public class StockList {
 			      .map(key -> "(" + key + " : " + bookList.get(key) + ")")
 			      .collect(Collectors.joining(" - "));
 	}
+	
+	public static String stockSummary2(String[] lstOfArt, String[] lstOf1stLetter) {
+        if (lstOfArt.length == 0 || lstOf1stLetter.length == 0)
+          return "";
+        Map<String, Integer> categoryCounts = Arrays.stream(lstOfArt)
+                .map(Book::new)
+                .collect(Collectors.groupingBy(book -> book.category,
+                         Collectors.summingInt(book -> book.quantity)));
+        String r = Arrays.stream(lstOf1stLetter)
+                .map(initial -> String.format("(%s : %d)", 
+                                              initial, categoryCounts.getOrDefault(initial, 0)))
+                .collect(Collectors.joining(" - "));
+        
+        return r;
+    }
+	
+	private static class Book {
+        public final String category;
+        public final String code;
+        public final int quantity;
+
+        public Book(String label) {
+            category = label.substring(0,1);
+            code = label.split(" ")[0].substring(1);
+            quantity = Integer.parseInt(label.split(" ")[1]);
+        }
+    }
 }
