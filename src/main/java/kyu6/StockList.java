@@ -1,6 +1,9 @@
 package kyu6;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * https://www.codewars.com/kata/54dc6f5a224c26032800005c
@@ -9,25 +12,34 @@ import java.util.Arrays;
  */
 public class StockList {
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
-		String art[] = new String[]{"ABAR 200", "CDXE 500", "BKWR 250", "BTSQ 890", "DRTY 600"};
-		String cd[] = new String[]{"A", "B"};
+		String art[] = new String[]{"ABAR 200", "CDXE 500", "BKWR -250", "BTSQ 890", "DRTY 600"};
+		String cd[] = new String[]{"A", "B", "Z"};
 		System.out.println(stockSummary(art, cd));
-
 	}
 
 	// 1st parameter is the stocklist (L in example),
 	// 2nd parameter is list of categories (M in example)
 	public static String stockSummary(String[] lstOfArt, String[] lstOf1stLetter) {
+		if(lstOfArt.length == 0 || lstOf1stLetter.length == 0) {
+			return "";
+		}
 		int lstOfArtInd = 0;
+		Map<String, Integer> bookList = new HashMap<String, Integer>();
+		for (String letter : lstOf1stLetter) {
+			bookList.put(letter, 0);
+		}
 		while(lstOfArtInd < lstOfArt.length) {
 			String book[] = lstOfArt[lstOfArtInd].split(" ");
 			String book1sLetter = Character.toString(book[0].charAt(0));
 			if(Arrays.stream(lstOf1stLetter).anyMatch(book1sLetter::equals)) {
-				
+				int bookValue = Integer.parseInt(book[1]);
+				bookList.put(book1sLetter, bookList.get(book1sLetter) + bookValue);
 			}
 			lstOfArtInd++;
 		}
+		return bookList.keySet().stream()
+			      .map(key -> "(" + key + " : " + bookList.get(key) + ")")
+			      .collect(Collectors.joining(" - "));
 	}
 }
