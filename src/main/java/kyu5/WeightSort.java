@@ -3,9 +3,7 @@ package kyu5;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * https://www.codewars.com/kata/55c6126177c9441a570000cc
@@ -17,16 +15,17 @@ public class WeightSort {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//System.out.println(sumNumbersStr("1", 0));
-		System.out.println(orderWeight("10 12 13 00 99 100"));
+		System.out.println(orderWeight("10 12 13 00 99 100 010"));
 	}
 	
 	public static String orderWeight(String strng) {
 		String[] nums = strng.split(" ");
-		List<Number> list = Arrays.stream(nums)
+		List<NumberValue> list = Arrays.stream(nums)
 				.map(n -> {
-					return new Number(n, sumNumbersStr(n, 0));					
+					return new NumberValue(n, sumNumbersStr(n, 0));					
 				})
-				.sorted(Comparator.comparing(Number::getValue))
+				.sorted(Comparator.comparing(NumberValue::getValue)
+						.thenComparing(NumberValue::getNum))
 				.collect(Collectors.toList());		
 		return list.stream().map(n ->n.num).collect(Collectors.joining(" "));
 						
@@ -36,17 +35,21 @@ public class WeightSort {
 		return index >= num.length() ? 0 : Character.getNumericValue(num.charAt(index)) + sumNumbersStr(num, index + 1);
 	}
 	
-	private static class Number {
-		public final String num;
-		public final int value;
+	private static class NumberValue {
+		private final String num;
+		private final int value;
 		
-		public Number(String num, int value) {
+		public NumberValue(String num, int value) {
 			this.num = num;
 			this.value = value;
 		}
 		
 		public int getValue() {
 			return this.value;
+		}
+		
+		public String getNum() {
+			return this.num;
 		}
 	}
 }
