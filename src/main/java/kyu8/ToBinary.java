@@ -6,9 +6,7 @@ package kyu8;
  *
  */
 public class ToBinary {
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
+	public static void main(String[] args) {		
 		System.out.println(toBinary(1));
 		System.out.println(toBinary(2));
 		System.out.println(toBinary(3));

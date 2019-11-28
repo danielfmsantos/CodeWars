@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 public class WeightSort {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		//System.out.println(sumNumbersStr("1", 0));
 		System.out.println(orderWeight("10 12 13 00 99 100 010"));
 	}
